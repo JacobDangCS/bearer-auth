@@ -1,7 +1,7 @@
 'use strict';
 
 const bcrypt = require('bcrypt');
-const SECRET = process.env.SECRET || 'ThisIsMySecret';
+const SECRET = process.env.SECRET || 'TEST_SECRET';
 const jwt = require('jsonwebtoken');
 
 
@@ -18,7 +18,7 @@ const userSchema = (sequelize, DataTypes) => {
   });
 
   model.beforeCreate(async (user) => {
-    let hashedPass = bcrypt.hash(user.password, 10);
+    let hashedPass = await bcrypt.hash(user.password, 10);
     user.password = hashedPass;
   });
 
@@ -31,10 +31,10 @@ const userSchema = (sequelize, DataTypes) => {
   };
 
   // Bearer AUTH: Validating a token
-  model.authenticateToken = async function (token) {
+  model.authenticateWithToken = async function (token) {
     try {
       const parsedToken = jwt.verify(token, process.env.SECRET);
-      const user = this.findOne({ username: parsedToken.username });
+      const user = this.findOne({ where: {username: parsedToken.username} });
       if (user) { return user; }
       throw new Error('User Not Found');
     } catch (e) {
