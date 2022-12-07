@@ -33,7 +33,7 @@ async function handleGetUsers(req, res, next) {
   try {
     const userRecords = await users.findAll({});
     const list = userRecords.map(user => user.username);
-    res.status(200).json(list);
+    res.status(201).json(list);
   } catch (e) {
     console.error(e);
     next(e);

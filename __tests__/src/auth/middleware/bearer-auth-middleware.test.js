@@ -1,6 +1,6 @@
 'use strict';
 
-process.env.SECRET = "TEST_SECRET";
+process.env.SECRET = 'TEST_SECRET';
 
 const bearer = require('../../../../src/auth/middleware/bearer.js');
 const { db, users } = require('../../../../src/auth/models/index.js');
@@ -27,7 +27,7 @@ describe('Auth Middleware', () => {
     status: jest.fn(() => res),
     send: jest.fn(() => res),
     json: jest.fn(() => res),
-  }
+  };
   const next = jest.fn();
 
   describe('user authentication', () => {
